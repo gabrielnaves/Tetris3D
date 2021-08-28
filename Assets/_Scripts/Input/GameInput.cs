@@ -23,4 +23,9 @@ public class GameInput : MonoBehaviour
         gameplayInput.Fall = Input.GetKey(KeyCode.DownArrow);
         gameplayInput.Skip = Input.GetKeyDown(KeyCode.Space);
     }
+
+    void OnDisable()
+    {
+        gameplayInput.Reset();
+    }
 }
