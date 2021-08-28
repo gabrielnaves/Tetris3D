@@ -1,9 +1,8 @@
-using UnityEngine;
+﻿using UnityEngine;
 
-public class DestroyOnStart : MonoBehaviour
-{
-    private void Start()
-    {
+public class DestroyOnStart : MonoBehaviour {
+
+    void Start() {
         Destroy(gameObject);
     }
 }

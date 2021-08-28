@@ -28,7 +28,7 @@ public class RenameMultiple : EditorWindow {
             if (ObjectIsNotScript(obj)) {
                 string path = AssetDatabase.GetAssetPath(obj);
                 if (IsGameObject(obj))
-                    obj.name = obj.name.Replace(pattern, replacement);
+                    ApplyRenamingToGameObject(obj);
                 else if (AssetDatabase.IsValidFolder(path))
                     ApplyRenamingToFilesInFolder(path);
                 else if (!string.IsNullOrEmpty(path))
@@ -40,6 +40,12 @@ public class RenameMultiple : EditorWindow {
 
     bool ObjectIsNotScript(Object obj) => obj.GetType() != typeof(MonoScript);
     bool IsGameObject(Object obj) => obj.GetType() == typeof(GameObject);
+
+    void ApplyRenamingToGameObject(Object obj) {
+        string targetName = obj.name.Replace(pattern, replacement);
+        Undo.RecordObject(obj, $"Renamed object {obj.name} to {targetName}");
+        obj.name = targetName;
+    }
 
     void ApplyRenamingToFilesInFolder(string folderPath) {
         var files = Directory.GetFiles(folderPath);
