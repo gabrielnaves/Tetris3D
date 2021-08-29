@@ -48,6 +48,58 @@ public class GameGrid : MonoBehaviour
         };
     }
 
+    private void Update()
+    {
+        CheckForCompletedLines();
+    }
+
+    private void CheckForCompletedLines()
+    {
+        for (int i = height - 1; i >= 0; --i)
+        {
+            if (IsLineAtHeightCompleted(i))
+            {
+                ClearLineAtHeight(i);
+                RollGridDownAtHeight(i);
+            }
+        }
+    }
+
+    bool IsLineAtHeightCompleted(int y)
+    {
+        for (int j = 0; j < width; ++j)
+        {
+            if (grid[j, y] == null)
+                return false;
+        }
+        return true;
+    }
+
+    void ClearLineAtHeight(int y)
+    {
+        for (int j = 0; j < width; ++j)
+        {
+            Destroy(grid[j, y].gameObject);
+            grid[j, y] = null;
+        }
+    }
+
+    void RollGridDownAtHeight(int y)
+    {
+        for (int i = y; i < height; ++i)
+        {
+            for (int j = 0; j < width; ++j)
+            {
+                if (grid[j, i] != null)
+                {
+                    grid[j, i].position += Vector3.down;
+                    grid[j, i - 1] = grid[j, i];
+                    grid[j, i] = null;
+                }
+            }
+        }
+    }
+
     private void OnDrawGizmos()
     {
         if (showGizmos)
