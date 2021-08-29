@@ -11,22 +11,30 @@ public class PieceSpawner : MonoBehaviour
 
     private void Start()
     {
+        GameEvents.OnGameStarted += StartSpawning;
+        GameEvents.OnGameEnded += StopSpawning;
+
         pieces = new List<GameObject>(Resources.LoadAll<GameObject>(pieceFolderPath));
         pieces.Shuffle();
-        StartSpawning();
     }
 
-    public void StartSpawning()
+    private void OnDestroy()
+    {
+        GameEvents.OnGameStarted -= StartSpawning;
+        GameEvents.OnGameEnded -= StopSpawning;
+    }
+
+    private void StartSpawning()
     {
         StartCoroutine(PieceSpawningRoutine());
     }
 
-    public void StopSpawning()
+    private void StopSpawning()
     {
         StopAllCoroutines();
     }
 
-    IEnumerator PieceSpawningRoutine()
+    private IEnumerator PieceSpawningRoutine()
     {
         while (true)
         {
