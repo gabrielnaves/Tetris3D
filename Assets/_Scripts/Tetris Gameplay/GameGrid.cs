@@ -61,6 +61,7 @@ public class GameGrid : MonoBehaviour
             {
                 ClearLineAtHeight(i);
                 RollGridDownAtHeight(i);
+                GameEvents.RaiseOnLineCleared();
             }
         }
     }
