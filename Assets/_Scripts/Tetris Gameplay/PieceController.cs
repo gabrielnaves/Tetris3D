@@ -17,6 +17,7 @@ public class PieceController : MonoBehaviour
     private float rotationVelocity;
     private float fallTimer;
     private float movementCooldownTimer;
+    private int invalidFallCounter;
 
     private void Start()
     {
@@ -30,6 +31,7 @@ public class PieceController : MonoBehaviour
         UpdateFallingMovement();
         UpdateRotation();
         MovePieceTowardsTarget();
+        UpdateFinalPiecePlacement();
     }
 
     private void UpdateHorizontalMovement()
@@ -54,7 +56,14 @@ public class PieceController : MonoBehaviour
             fallTimer = 0;
             var newPos = targetPosition + Vector3.down * movementAmount;
             if (IsPositionValid(newPos))
+            {
+                invalidFallCounter = 0;
                 targetPosition = newPos;
+            }
+            else
+            {
+                invalidFallCounter++;
+            }
         }
     }
 
@@ -96,6 +105,18 @@ public class PieceController : MonoBehaviour
     private float GetCurrentAngle()
     {
         return transform.rotation.eulerAngles.z;
+    }
+
+    private void UpdateFinalPiecePlacement()
+    {
+        if (invalidFallCounter >= 2)
+        {
+            transform.position = targetPosition;
+            transform.RotateAround(transform.TransformPoint(rotationOffset), new Vector3(0, 0, 1), Mathf.DeltaAngle(GetCurrentAngle(), targetAngle));
+            while (transform.childCount > 0)
+                GameGrid.instance.AddCubeToGrid(transform.GetChild(0));
+            Destroy(gameObject);
+        }
     }
 
     void OnDrawGizmosSelected()

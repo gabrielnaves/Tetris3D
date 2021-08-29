@@ -12,15 +12,20 @@ public class GameGrid : MonoBehaviour
     [SerializeField] private bool showGizmos;
     [SerializeField] private Color gizmoColor;
 
+    private void Awake()
+    {
+        instance = Singleton.Setup(this, instance) as GameGrid;
+    }
+
     public bool IsPositionValid(Vector3 pos)
     {
         return pos.x >= gridBounds.min.x && pos.x <= gridBounds.max.x &&
                pos.y >= gridBounds.min.y;
     }
 
-    private void Awake()
+    public void AddCubeToGrid(Transform cube)
     {
-        instance = Singleton.Setup(this, instance) as GameGrid;
+        cube.SetParent(transform);
     }
 
     private void OnDrawGizmos()
