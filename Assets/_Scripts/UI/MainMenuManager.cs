@@ -10,24 +10,33 @@ public class MainMenuManager : MonoBehaviour
     private void Awake()
     {
         GameEvents.OnGameStarted += FadeOutMenu;
+        GameEvents.OnReturnToMainMenu += FadeInMenu;
     }
 
     private void FadeOutMenu() => canvasFader.RequestFadeOut();
+    private void FadeInMenu() => canvasFader.RequestFadeIn();
 
     private void OnDestroy()
     {
         GameEvents.OnGameStarted -= FadeOutMenu;
+        GameEvents.OnReturnToMainMenu -= FadeInMenu;
     }
 
     public void Play()
     {
-        GameEvents.RaiseOnGameStarted();
+        if (!requestedQuit)
+            GameEvents.RaiseOnGameStarted();
     }
 
     public void Quit()
     {
         if (!requestedQuit)
             StartCoroutine(QuitRoutine());
+    }
+
+    public void ReturnToMainMenu()
+    {
+        GameEvents.RaiseOnReturnToMainMenu();
     }
 
     private IEnumerator QuitRoutine()

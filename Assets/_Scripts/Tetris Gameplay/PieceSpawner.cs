@@ -7,12 +7,13 @@ public class PieceSpawner : MonoBehaviour
     [SerializeField] private string pieceFolderPath;
 
     private List<GameObject> pieces;
-    private int currentPiece;
+    private int pieceIndex;
 
     private void Start()
     {
         GameEvents.OnGameStarted += StartSpawning;
         GameEvents.OnGameEnded += StopSpawning;
+        GameEvents.OnReturnToMainMenu += StopSpawning;
 
         pieces = new List<GameObject>(Resources.LoadAll<GameObject>(pieceFolderPath));
         pieces.Shuffle();
@@ -22,6 +23,7 @@ public class PieceSpawner : MonoBehaviour
     {
         GameEvents.OnGameStarted -= StartSpawning;
         GameEvents.OnGameEnded -= StopSpawning;
+        GameEvents.OnReturnToMainMenu -= StopSpawning;
     }
 
     private void StartSpawning()
@@ -45,11 +47,11 @@ public class PieceSpawner : MonoBehaviour
 
     private GameObject GenerateRandomPiece()
     {
-        var piece = Instantiate(pieces[currentPiece++], transform.position, Quaternion.identity, transform);
-        if (currentPiece == pieces.Count)
+        var piece = Instantiate(pieces[pieceIndex++], transform.position, Quaternion.identity, transform);
+        if (pieceIndex == pieces.Count)
         {
             pieces.Shuffle();
-            currentPiece = 0;
+            pieceIndex = 0;
         }
         return piece;
     }

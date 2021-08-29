@@ -21,6 +21,13 @@ public class GameGrid : MonoBehaviour
         width = Mathf.RoundToInt(gridBounds.size.x);
         height = Mathf.RoundToInt(gridBounds.size.y);
         grid = new Transform[width, height];
+
+        GameEvents.OnReturnToMainMenu += ClearFullGrid;
+    }
+
+    private void OnDestroy()
+    {
+        GameEvents.OnReturnToMainMenu -= ClearFullGrid;
     }
 
     public bool IsPositionValid(Vector3 pos)
@@ -37,6 +44,12 @@ public class GameGrid : MonoBehaviour
         cube.SetParent(transform);
         var gridPos = WorldPosToGridCoordinate(cube.position);
         grid[gridPos.x, gridPos.y] = cube;
+    }
+
+    public void ClearFullGrid()
+    {
+        for (int i = 0; i < height; ++i)
+            ClearLineAtHeight(i);
     }
 
     private Vector2Int WorldPosToGridCoordinate(Vector3 pos)
@@ -81,8 +94,11 @@ public class GameGrid : MonoBehaviour
     {
         for (int j = 0; j < width; ++j)
         {
-            Destroy(grid[j, y].gameObject);
-            grid[j, y] = null;
+            if (grid[j, y])
+            {
+                Destroy(grid[j, y].gameObject);
+                grid[j, y] = null;
+            }
         }
     }
 

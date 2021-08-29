@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PieceController : MonoBehaviour
@@ -23,6 +21,17 @@ public class PieceController : MonoBehaviour
     {
         targetPosition = transform.position;
         targetAngle = GetCurrentAngle();
+        GameEvents.OnReturnToMainMenu += SelfDestruct;
+    }
+
+    private void SelfDestruct()
+    {
+        Destroy(gameObject);
+    }
+
+    private void OnDestroy()
+    {
+        GameEvents.OnReturnToMainMenu -= SelfDestruct;
     }
 
     private void Update()
