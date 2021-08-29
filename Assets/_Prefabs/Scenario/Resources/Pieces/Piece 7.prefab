@@ -68,6 +68,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -9072297638230258508, guid: 626d962aad929b94c87c77115e1621f1, type: 3}
+      propertyPath: rotationOffset.x
+      value: -0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: -9072297638230258508, guid: 626d962aad929b94c87c77115e1621f1, type: 3}
+      propertyPath: rotationOffset.y
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 2909271455322845258, guid: 626d962aad929b94c87c77115e1621f1, type: 3}
       propertyPath: m_RootOrder
       value: 0

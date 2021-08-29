@@ -9,21 +9,26 @@ public class PieceController : MonoBehaviour
     [SerializeField] private float movementSmoothTime;
     [SerializeField] private float movementCooldownTime;
     [SerializeField] private float fallTime;
+    [SerializeField] private Vector3 rotationOffset;
 
     private Vector3 targetPosition;
     private Vector3 currentVelocity;
+    private float targetAngle;
+    private float rotationVelocity;
     private float fallTimer;
     private float movementCooldownTimer;
 
     private void Start()
     {
         targetPosition = transform.position;
+        targetAngle = GetCurrentAngle();
     }
 
     private void Update()
     {
         UpdateHorizontalMovement();
         UpdateFallingMovement();
+        UpdateRotation();
         MovePieceTowardsTarget();
     }
 
@@ -53,6 +58,21 @@ public class PieceController : MonoBehaviour
         }
     }
 
+    private void UpdateRotation()
+    {
+        if (input.Rotate)
+        {
+            targetAngle += 90;
+            float delta = Mathf.DeltaAngle(GetCurrentAngle(), targetAngle);
+            transform.RotateAround(transform.TransformPoint(rotationOffset), new Vector3(0, 0, 1), delta);
+            if (!IsPositionValid(targetPosition))
+            {
+                targetAngle -= 90;
+            }
+            transform.RotateAround(transform.TransformPoint(rotationOffset), new Vector3(0, 0, 1), -delta);
+        }
+    }
+
     private bool IsPositionValid(Vector3 position)
     {
         if (!GameGrid.instance) return true;
@@ -68,5 +88,19 @@ public class PieceController : MonoBehaviour
     private void MovePieceTowardsTarget()
     {
         transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref currentVelocity, movementSmoothTime);
+        float currentAngle = GetCurrentAngle();
+        float requiredAngle = Mathf.SmoothDampAngle(currentAngle, targetAngle, ref rotationVelocity, movementSmoothTime);
+        transform.RotateAround(transform.TransformPoint(rotationOffset), new Vector3(0, 0, 1), Mathf.DeltaAngle(currentAngle, requiredAngle));
+    }
+
+    private float GetCurrentAngle()
+    {
+        return transform.rotation.eulerAngles.z;
+    }
+
+    void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawSphere(transform.TransformPoint(rotationOffset), 0.1f);
     }
 }
