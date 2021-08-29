@@ -19,6 +19,12 @@ public class GameInput : MonoBehaviour
         if (Input.GetKey(KeyCode.LeftArrow))
             gameplayInput.Movement -= 1;
 
+        gameplayInput.MovementDown = 0;
+        if (Input.GetKeyDown(KeyCode.RightArrow))
+            gameplayInput.MovementDown += 1;
+        if (Input.GetKeyDown(KeyCode.LeftArrow))
+            gameplayInput.MovementDown -= 1;
+
         gameplayInput.Rotate = Input.GetKeyDown(KeyCode.UpArrow);
         gameplayInput.Fall = Input.GetKey(KeyCode.DownArrow);
         gameplayInput.Skip = Input.GetKeyDown(KeyCode.Space);
