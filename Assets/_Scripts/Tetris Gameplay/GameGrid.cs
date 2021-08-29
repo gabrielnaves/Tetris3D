@@ -14,6 +14,7 @@ public class GameGrid : MonoBehaviour
 
     private int width, height;
     private Transform[,] grid;
+    private bool gameEnded;
 
     private void Awake()
     {
@@ -22,13 +23,17 @@ public class GameGrid : MonoBehaviour
         height = Mathf.RoundToInt(gridBounds.size.y);
         grid = new Transform[width, height];
 
+        GameEvents.OnGameStarted += OnGameStarted;
         GameEvents.OnReturnToMainMenu += ClearFullGrid;
     }
 
     private void OnDestroy()
     {
+        GameEvents.OnGameStarted -= OnGameStarted;
         GameEvents.OnReturnToMainMenu -= ClearFullGrid;
     }
+
+    private void OnGameStarted() => gameEnded = false;
 
     public bool IsPositionValid(Vector3 pos)
     {
@@ -43,7 +48,24 @@ public class GameGrid : MonoBehaviour
     {
         cube.SetParent(transform);
         var gridPos = WorldPosToGridCoordinate(cube.position);
-        grid[gridPos.x, gridPos.y] = cube;
+        bool overlap = false;
+        if (grid[gridPos.x, gridPos.y] == null)
+            grid[gridPos.x, gridPos.y] = cube;
+        else
+            overlap = true;
+        if (overlap || cube.position.y > gridBounds.max.y)
+            EndGame();
+        if (overlap)
+            Destroy(cube.gameObject);
+    }
+
+    private void EndGame()
+    {
+        if (!gameEnded)
+        {
+            gameEnded = true;
+            GameEvents.RaiseOnGameEnded();
+        }
     }
 
     public void ClearFullGrid()

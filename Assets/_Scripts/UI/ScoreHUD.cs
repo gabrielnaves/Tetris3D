@@ -3,10 +3,11 @@ using TMPro;
 
 public class ScoreHUD : MonoBehaviour
 {
+    [SerializeField] private string prefix = "Score: ";
     [SerializeField] private TextMeshProUGUI text;
 
     private void LateUpdate()
     {
-        text.text = $"Score: {GameScore.instance.score}";
+        text.text = $"{prefix}{GameScore.instance.score}";
     }
 }
