@@ -48,3 +48,7 @@ MonoBehaviour:
   movementSmoothTime: 0.05
   movementCooldownTime: 0.15
   fallTime: 0.3
+  rotationOffset: {x: 0, y: 0, z: 0}
+  movementSound: event:/Gameplay SFX/Piece Movement
+  rotateSound: event:/Gameplay SFX/Piece Rotating
+  placementSound: event:/Gameplay SFX/Piece Placement

@@ -1,8 +1,10 @@
 using UnityEngine;
+using FMODUnity;
 
 public class GameOverMenu : MonoBehaviour
 {
     [SerializeField] private CanvasGroupFader canvasFader;
+    [SerializeField, EventRef] private string gameOverSound;
 
     private void Awake()
     {
@@ -16,6 +18,7 @@ public class GameOverMenu : MonoBehaviour
 
     private void OnGameEnded()
     {
+        RuntimeManager.PlayOneShot(gameOverSound);
         canvasFader.RequestFadeIn(true);
     }
 }

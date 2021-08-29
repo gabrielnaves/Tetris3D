@@ -1,12 +1,12 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using FMODUnity;
 
 public class GameGrid : MonoBehaviour
 {
     static public GameGrid instance { get; private set; }
 
     [SerializeField] private Bounds gridBounds;
+    [SerializeField, EventRef] private string lineClearSound;
 
     [Header("Debug")]
     [SerializeField] private bool showGizmos;
@@ -94,6 +94,7 @@ public class GameGrid : MonoBehaviour
         {
             if (IsLineAtHeightCompleted(i))
             {
+                RuntimeManager.PlayOneShot(lineClearSound);
                 ClearLineAtHeight(i);
                 RollGridDownAtHeight(i);
                 GameEvents.RaiseOnLineCleared();

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.00.00">
+	<object class="AudioFile" id="{d07aa8d5-b208-47c3-a978-96040103275e}">
+		<property name="assetPath">
+			<value>Heavy_Jail_Door_01.wav</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>44.0999985</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>4.9806802721088435</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{dfa9960f-4e8c-43dd-8762-8e90c9c9e8a5}</destination>
+		</relationship>
+	</object>
+</objects>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.00.00">
+	<object class="AudioFile" id="{ad1eb721-cb5e-4127-ac08-6070c2e93e23}">
+		<property name="assetPath">
+			<value>6-Dark Fantasy Studio- Skyline.wav</value>
+		</property>
+		<property name="isStreaming">
+			<value>true</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>44.0999985</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>130.16666666666666</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{dfa9960f-4e8c-43dd-8762-8e90c9c9e8a5}</destination>
+		</relationship>
+	</object>
+</objects>

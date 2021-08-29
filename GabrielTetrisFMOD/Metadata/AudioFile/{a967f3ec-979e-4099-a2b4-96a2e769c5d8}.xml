@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.00.00">
+	<object class="AudioFile" id="{a967f3ec-979e-4099-a2b4-96a2e769c5d8}">
+		<property name="assetPath">
+			<value>robotic_interface_10.wav</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>44.0999985</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>1.1406575963718821</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{dfa9960f-4e8c-43dd-8762-8e90c9c9e8a5}</destination>
+		</relationship>
+	</object>
+</objects>

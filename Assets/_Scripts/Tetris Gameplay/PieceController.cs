@@ -1,4 +1,5 @@
 using UnityEngine;
+using FMODUnity;
 
 public class PieceController : MonoBehaviour
 {
@@ -8,6 +9,9 @@ public class PieceController : MonoBehaviour
     [SerializeField] private float movementCooldownTime;
     [SerializeField] private float fallTime;
     [SerializeField] private Vector3 rotationOffset;
+    [SerializeField, EventRef] private string movementSound;
+    [SerializeField, EventRef] private string rotateSound;
+    [SerializeField, EventRef] private string placementSound;
 
     private Vector3 targetPosition;
     private Vector3 currentVelocity;
@@ -52,7 +56,10 @@ public class PieceController : MonoBehaviour
             var direction = input.Movement > 0 ? Vector3.right : Vector3.left;
             var newPos = targetPosition + direction * movementAmount;
             if (IsPositionValid(newPos))
+            {
+                RuntimeManager.PlayOneShot(movementSound);
                 targetPosition = newPos;
+            }
         }
     }
 
@@ -84,9 +91,9 @@ public class PieceController : MonoBehaviour
             float delta = Mathf.DeltaAngle(GetCurrentAngle(), targetAngle);
             transform.RotateAround(transform.TransformPoint(rotationOffset), new Vector3(0, 0, 1), delta);
             if (!IsPositionValid(targetPosition))
-            {
                 targetAngle -= 90;
-            }
+            else
+                RuntimeManager.PlayOneShot(rotateSound);
             transform.RotateAround(transform.TransformPoint(rotationOffset), new Vector3(0, 0, 1), -delta);
         }
     }
@@ -125,6 +132,7 @@ public class PieceController : MonoBehaviour
             while (transform.childCount > 0)
                 GameGrid.instance.AddCubeToGrid(transform.GetChild(0));
             Destroy(gameObject);
+            RuntimeManager.PlayOneShot(placementSound);
             CameraShake.instance.AddTrauma(0.5f);
         }
     }
