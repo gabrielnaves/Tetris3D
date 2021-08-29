@@ -116,6 +116,7 @@ public class PieceController : MonoBehaviour
             while (transform.childCount > 0)
                 GameGrid.instance.AddCubeToGrid(transform.GetChild(0));
             Destroy(gameObject);
+            CameraShake.instance.AddTrauma(0.5f);
         }
     }
 
