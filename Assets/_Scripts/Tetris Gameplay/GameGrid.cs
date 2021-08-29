@@ -62,6 +62,7 @@ public class GameGrid : MonoBehaviour
                 ClearLineAtHeight(i);
                 RollGridDownAtHeight(i);
                 GameEvents.RaiseOnLineCleared();
+                CameraShake.instance.AddTrauma(1);
             }
         }
     }
